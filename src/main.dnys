@@ -143,6 +143,7 @@ function CreateWindow void()
 	bitop "or" (%WS_OVERLAPPED, %WS_SYSMENU, %WS_VISIBLE) wndstyles;
 
     wnd_spawnform frmMain "%FORM_TEXT" 500 400 635 330 %wndstyles bres;
+	wnd_setformicon frmMain {%currentpath..\assets\app.ico};
 
     wnd_spawnlabel frmMain "lblKey1" 20 10 20 30 "F5: ";
 	wnd_spawnlabel frmMain "lblKey2" 20 50 20 30 "F6: ";
