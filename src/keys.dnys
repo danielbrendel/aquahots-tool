@@ -1,0 +1,103 @@
+function CheckKey1 void()
+{
+	local kdres bool;
+	
+	aut_iskeydown %KEY_CODE_1 kdres;
+	
+	if (%kdres, -eq, true) {
+		if (%keytoggle1, -eq, false) {
+			call SendText("%arrConfigItems[0]") => void;
+		
+			set keytoggle1 <= true;
+		};
+	} else {
+		if (%keytoggle1, -eq, true) {
+			set keytoggle1 <= false;
+		};
+	};
+};
+
+function CheckKey2 void()
+{
+	local kdres bool;
+	
+	aut_iskeydown %KEY_CODE_2 kdres;
+	
+	if (%kdres, -eq, true) {
+		if (%keytoggle2, -eq, false) {
+			call SendText("%arrConfigItems[1]") => void;
+		
+			set keytoggle2 <= true;
+		};
+	} else {
+		if (%keytoggle2, -eq, true) {
+			set keytoggle2 <= false;
+		};
+	};
+};
+
+function CheckKey3 void()
+{
+	local kdres bool;
+	
+	aut_iskeydown %KEY_CODE_3 kdres;
+	
+	if (%kdres, -eq, true) {
+		if (%keytoggle3, -eq, false) {
+			call SendText("%arrConfigItems[2]") => void;
+		
+			set keytoggle3 <= true;
+		};
+	} else {
+		if (%keytoggle3, -eq, true) {
+			set keytoggle3 <= false;
+		};
+	};
+};
+
+function CheckKey4 void()
+{
+	local kdres bool;
+	
+	aut_iskeydown %KEY_CODE_4 kdres;
+	
+	if (%kdres, -eq, true) {
+		if (%keytoggle4, -eq, false) {
+			call SendText("%arrConfigItems[3]") => void;
+		
+			set keytoggle4 <= true;
+		};
+	} else {
+		if (%keytoggle4, -eq, true) {
+			set keytoggle4 <= false;
+		};
+	};
+};
+
+function CheckKey5 void()
+{
+	local kdres bool;
+	local fixcount int;
+
+	set fixcount <= %arrConfigItems.length;
+	-- fixcount;
+	
+	aut_iskeydown %KEY_CODE_5 kdres;
+	
+	if (%kdres, -eq, true) {
+		if (%keytoggle5, -eq, false) {
+			call SendText("%arrConfigItems[%switchcount]") => void;
+			
+			++ switchcount;
+			if (%switchcount, -gre, %fixcount) {
+				set switchcount <= %CONFIG_TOGGLE_SECTION_START;
+			};
+		
+			set keytoggle5 <= true;
+		};
+	} else {
+		if (%keytoggle5, -eq, true) {
+			set keytoggle5 <= false;
+		};
+	};
+};

@@ -1,0 +1,32 @@
+function GameWindowActive bool()
+{
+	local targetwnd int;
+	local wndfg int;
+
+	result false;
+	
+	aut_findwindow "%WND_CLASS" \0 targetwnd;
+	
+	if (%targetwnd, -gr, 0) {
+		aut_getfgwindow wndfg;
+		
+		if (%wndfg, -eq, %targetwnd) {
+			result true;
+		};
+	};
+};
+
+function SendText void(texttosend string)
+{
+	local kres bool;
+
+	print "Sending text: %texttosend ...";
+	
+	aut_sendkeystrokes {\VK_RETURN;} false false false kres;
+	sleep 1;
+	
+	aut_sendkeystrokes %texttosend false false false kres;
+
+	sleep 1;
+	aut_sendkeystrokes {\VK_RETURN;} false false false kres;
+};

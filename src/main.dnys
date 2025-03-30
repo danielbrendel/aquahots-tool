@@ -1,17 +1,4 @@
-# Send chat messages to Heroes of the Storm via hotkeys
-#
-# This script features binding chat messages to the keys F5, F6, F7, F8 and F9 by default.
-# Key F5 - F8 are subject to single chat messages where key F9 will be subject to a switching
-# toggle. That means you can specify a dynamic amount of chat messages that will be iterated on
-# and once the end is reached, it will be starting over from the beginning again.
-
-# You can edit the chat messages via the GUI (except switching toggles). The script does also check
-# if the current foreground window is the window of the game in order to prevent that the chat messages 
-# are inserted elsewhere.
-#
-# Chat messages are stored in the text file defined via the constant CONFIG_NAME. If it does not exist
-# then the script will create a sample file that can be edited afterwards.
-#
+# Heroes of the Storms Hotkey Manager main script file
 
 hideconsole;
 
@@ -22,7 +9,7 @@ require "forms";
 require "strings";
 
 const WND_CLASS string <= "Heroes of the Storm";
-const CONFIG_NAME string <= "hots_messages.txt";
+const CONFIG_NAME string <= "messages.txt";
 const FORM_TEXT string <= "HotS Chat Hotkey Manager";
 const KEY_CODE_1 int <= 116; #F5
 const KEY_CODE_2 int <= 117; #F6
@@ -61,25 +48,7 @@ array arrConfigItems string 0 ();
 
 getscriptpath currentpath;
 
-set configpath <= {%currentpath%CONFIG_NAME};
-
-function GameWindowActive bool()
-{
-	local targetwnd int;
-	local wndfg int;
-
-	result false;
-	
-	aut_findwindow "%WND_CLASS" \0 targetwnd;
-	
-	if (%targetwnd, -gr, 0) {
-		aut_getfgwindow wndfg;
-		
-		if (%wndfg, -eq, %targetwnd) {
-			result true;
-		};
-	};
-};
+set configpath <= {%currentpath..\config\%CONFIG_NAME};
 
 function cbHotKeyToggles_OnSelect void(newItem string)
 {
@@ -207,124 +176,8 @@ function CreateWindow void()
 	wnd_cbselectitem frmMain cbHotKeyToggles %cbselindex;
 };
 
-function SendText void(texttosend string)
-{
-	local kres bool;
-
-	print "Sending text: %texttosend ...";
-	
-	aut_sendkeystrokes {\VK_RETURN;} false false false kres;
-	sleep 1;
-	
-	aut_sendkeystrokes %texttosend false false false kres;
-
-	sleep 1;
-	aut_sendkeystrokes {\VK_RETURN;} false false false kres;
-};
-
-function CheckKey1 void()
-{
-	local kdres bool;
-	
-	aut_iskeydown %KEY_CODE_1 kdres;
-	
-	if (%kdres, -eq, true) {
-		if (%keytoggle1, -eq, false) {
-			call SendText("%arrConfigItems[0]") => void;
-		
-			set keytoggle1 <= true;
-		};
-	} else {
-		if (%keytoggle1, -eq, true) {
-			set keytoggle1 <= false;
-		};
-	};
-};
-
-function CheckKey2 void()
-{
-	local kdres bool;
-	
-	aut_iskeydown %KEY_CODE_2 kdres;
-	
-	if (%kdres, -eq, true) {
-		if (%keytoggle2, -eq, false) {
-			call SendText("%arrConfigItems[1]") => void;
-		
-			set keytoggle2 <= true;
-		};
-	} else {
-		if (%keytoggle2, -eq, true) {
-			set keytoggle2 <= false;
-		};
-	};
-};
-
-function CheckKey3 void()
-{
-	local kdres bool;
-	
-	aut_iskeydown %KEY_CODE_3 kdres;
-	
-	if (%kdres, -eq, true) {
-		if (%keytoggle3, -eq, false) {
-			call SendText("%arrConfigItems[2]") => void;
-		
-			set keytoggle3 <= true;
-		};
-	} else {
-		if (%keytoggle3, -eq, true) {
-			set keytoggle3 <= false;
-		};
-	};
-};
-
-function CheckKey4 void()
-{
-	local kdres bool;
-	
-	aut_iskeydown %KEY_CODE_4 kdres;
-	
-	if (%kdres, -eq, true) {
-		if (%keytoggle4, -eq, false) {
-			call SendText("%arrConfigItems[3]") => void;
-		
-			set keytoggle4 <= true;
-		};
-	} else {
-		if (%keytoggle4, -eq, true) {
-			set keytoggle4 <= false;
-		};
-	};
-};
-
-function CheckKey5 void()
-{
-	local kdres bool;
-	local fixcount int;
-
-	set fixcount <= %arrConfigItems.length;
-	-- fixcount;
-	
-	aut_iskeydown %KEY_CODE_5 kdres;
-	
-	if (%kdres, -eq, true) {
-		if (%keytoggle5, -eq, false) {
-			call SendText("%arrConfigItems[%switchcount]") => void;
-			
-			++ switchcount;
-			if (%switchcount, -gre, %fixcount) {
-				set switchcount <= %CONFIG_TOGGLE_SECTION_START;
-			};
-		
-			set keytoggle5 <= true;
-		};
-	} else {
-		if (%keytoggle5, -eq, true) {
-			set keytoggle5 <= false;
-		};
-	};
-};
+exec "%currentpathutils.dnys";
+exec "%currentpathkeys.dnys";
 
 function UpdateGameWindowStatus void()
 {
