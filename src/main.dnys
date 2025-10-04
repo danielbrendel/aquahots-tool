@@ -51,7 +51,7 @@ getscriptpath currentpath;
 
 set configpath <= {%currentpath..\config\%CONFIG_NAME};
 
-function cbHotKeyToggles_OnSelect void(newItem string)
+function cbHotKeyToggles_OnSelect void(selectedItem string)
 {
 };
 
